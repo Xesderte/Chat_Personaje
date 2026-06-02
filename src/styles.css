@@ -1,0 +1,90 @@
+/* === 1. BASE (Mobile First) === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    /*Unidad relativa para altura*/
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+}
+
+/* ===  NAVBAR ===*/
+/* Uso de Flebox requerido por la rubrica */
+
+.navbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #1e1e1e;
+    border-color: 1px solid #333;
+}
+
+.nav-links{
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn{
+    background: none;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: backgound 0.3s ease;
+}
+
+.nav-btn:hover{
+    background: #333;
+}
+
+/* === CONTENEDOR PRINCIPAL === */
+.main-container{
+    flex-grow: 1;
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.view-section{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeIn 0.3 ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 0; transform: translateY(0);}
+}
+
+/* === 2. TABLET BREAKPOINT (Mínimo 768px) === */
+@media (min-width: 768px){
+    .navbar{
+        flex-direction: row; /* En tablet, logo y botones van lado a lado */
+        justify-content: space-between;
+        padding: 1rem 2rem;
+    }
+
+    .main-container{
+        padding: 2rem;
+    }
+}
+
+/* === 3. DESKTOP BREAKPOINT (Mínimo 1024px) === */
+@media (min-width: 1024px){
+    .main-container{
+        /* Limitamos el ancho maximo en pantalla gigantes y centramos */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem;
+    }
+}
