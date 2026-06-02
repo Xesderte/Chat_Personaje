@@ -88,3 +88,73 @@ body {
         padding: 3rem;
     }
 }
+
+/* === ESTILOS DEL CHAT === */
+.chat-window {
+    flex-grow: 1;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 300px;
+    max-height: 60vh;
+    }
+
+.chat-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.chat-form input {
+    flex-grow: 1;
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #2a2a2a;
+    color: white;
+}
+
+.chat-form button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.chat-form button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* Diferenciación visual de los globos de chat */
+.message {
+    max-width: 80%;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    line-height: 1.4;
+}
+
+.message-user {
+    align-self: flex-end;
+    background-color: #2196F3;
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.message-assistant {
+    align-self: flex-start;
+    background-color: #333;
+    color: #ddd;
+    border-bottom-left-radius: 2px;
+}
+
+.typing {
+    font-style: italic;
+    opacity: 0.7;
+}
