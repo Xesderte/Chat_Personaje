@@ -1,9 +1,15 @@
-// El historial se mantiene seguro en la memoria de la sesión
-let chatHistory = [];
+// Importamos la lógica pura y el System Prompt que creamos en el Subpaso anterior
+import { SYSTEM_PROMPT, sanitizeInput, limitChatHistory, formatErrorMessage } from './utils.js';
+
+// El historial ahora arranca con la personalidad de Arthur pre-cargada de forma silenciosa
+let chatHistory = [SYSTEM_PROMPT];
 
 // --- UTILIDADES COMPARTIDAS (Manipulan el DOM dinámicamente) ---
 
 function appendMessageToUI(role, text) {
+    // ¡IMPORTANTE! Nunca dibujamos el System Prompt en la pantalla del usuario
+    if (role === 'system') return;
+
     const chatWindow = document.getElementById('chat-window');
     if (!chatWindow) return;
 
@@ -50,16 +56,19 @@ function removeTypingIndicator() {
 
 // --- FUNCIÓN DE INICIALIZACIÓN (Solo monta la vista) ---
 export function initChat() {
-    // Cada vez que entramos a la vista, redibujamos el estado actual del historial
-    if (chatHistory.length === 0) {
+    const chatWindow = document.getElementById('chat-window');
+    if(chatWindow) chatWindow.innerHTML = ''; // Limpiamos la vista si el usuario sale y vuelve a entrar
+
+    // Si el historial solo tiene el System Prompt (longitud 1), agregamos la bienvenida estática visual
+    if (chatHistory.length === 1) {
         appendMessageToUI('assistant', 'Howdy, partner. ¿De qué querés hablar?');
     } else {
+        // Redibujamos el historial completo (omitiendo el System Prompt gracias a nuestra validación en appendMessageToUI)
         chatHistory.forEach(msg => appendMessageToUI(msg.role, msg.content));
     }
 }
 
 // --- DELEGACIÓN GLOBAL DE EVENTOS (Se ejecuta UNA SOLA VEZ) ---
-// Escuchamos los submits de toda la página, pero solo actuamos si vienen del chat-form
 document.body.addEventListener('submit', async (e) => {
     if (e.target && e.target.id === 'chat-form') {
         e.preventDefault();
@@ -67,11 +76,10 @@ document.body.addEventListener('submit', async (e) => {
         const input = document.getElementById('chat-input');
         if (!input) return;
 
-        // ¡CORRECCIÓN DE BUG! Cambiamos ariaValueMax por value para capturar el texto real
-        const text = input.value.trim(); 
-        if (!text) return;
+        // 1. APLICAMOS LA FUNCIÓN DE LIMPIEZA (Evita procesar espacios en blanco y ahorra tokens)
+        const text = sanitizeInput(input.value); 
+        if (!text) return; 
 
-        // 1. Mostramos el mensaje del usuario y limpiamos el input
         appendMessageToUI('user', text);
         input.value = '';
 
@@ -81,9 +89,12 @@ document.body.addEventListener('submit', async (e) => {
         // 3. Mostramos estado de carga
         showTypingIndicator();
 
-        // 4. Petición segura al Backend
+        // 4. APLICAMOS EL LÍMITE DE HISTORIAL (Protegemos la API de colapsar)
+        chatHistory = limitChatHistory(chatHistory, 10);
+
+        // 5. Petición segura al Backend
         try {
-            const response = await fetch('/api/chat', {
+            const response = await fetch('/api/functions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: chatHistory })
@@ -95,13 +106,16 @@ document.body.addEventListener('submit', async (e) => {
                 throw new Error(data.error || 'Fallo en la conexión con el servidor');
             }
 
-            // 5. Mostramos la respuesta y la guardamos en el historial
+            // Mostramos la respuesta y la guardamos en el historial
             const botReply = data.reply;
             appendMessageToUI('assistant', botReply);
             chatHistory.push({ role: 'assistant', content: botReply });
         } catch (error) {
             console.error('Error en el chat: ', error);
-            appendMessageToUI('error', 'Maldita sea... parece que perdimos la conexión al campamento. Intenta de nuevo.');    
+            
+            // 6. APLICAMOS EL PARSEADOR DE ERRORES (Mantiene el tono inmersivo si falla la red)
+            const errorMessage = formatErrorMessage(error);
+            appendMessageToUI('error', errorMessage);    
         } finally {
             removeTypingIndicator();
         }
