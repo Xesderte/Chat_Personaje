@@ -20,7 +20,15 @@ export function initChat() {
         const msgElement = document.createElement('div')
 
         //Diferencia visual: asignamos clases CSS distnacias segun quien habla
-        msgElement.classList.add('message', role === 'user' ? 'message-user' : 'message-assistant');
+        // Diferencia visual: evaluamos si es usuario, asistente o error
+        msgElement.classList.add('message');
+        if (role === 'user') {
+            msgElement.classList.add('message-user');
+        } else if (role === 'error') {
+            msgElement.classList.add('message-error');
+        } else {
+            msgElement.classList.add('message-assistant');
+        }
         msgElement.textContent = text;
 
         chatWindow.appendChild(msgElement);
@@ -82,10 +90,10 @@ export function initChat() {
             const botReply = data.reply;
             appendMessageToUI('assistant', botReply);
             chatHistory.push({role: 'assistant', content: botReply});
-        }catch(error){
+        } catch(error) {
             console.error('Error en el chat: ', error);
-            appendMessageToUI('assistant', 'Maldita sea... parece que perdimos la conexión al campamento. Intenta de nuevo.');    
-        }finally{
+            appendMessageToUI('error', 'Maldita sea... parece que perdimos la conexión al campamento. Intenta de nuevo.');    
+        } finally {
             removeTypingIndicator();
         }
     });

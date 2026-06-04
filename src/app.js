@@ -6,8 +6,19 @@ const container = document.getElementById('app-container');
 const views = {
     '/home': () => `
         <section class="view-section">
-        <h1>Bienvenido a la Experiencia AI</h1>
-        <p>Selecciona tu personaje favorito y comienza a chatear.</p>
+        <h1>Bienvenido a ComicSansCon AI</h1>
+        <p>Selecciona tu personaje para comenzar la experiencia.</p>
+        
+        <div class="character-grid">
+            <div class="character-card">
+                <div class="character-avatar">🤠</div>
+                <div class="character-info">
+                    <h3>Arthur, el Forajido</h3>
+                    <p>Un vaquero rudo pero leal. Experto en supervivencia, asaltos a diligencias y contar historias junto a la fogata del campamento.</p>
+                    <button data-route="/chat" class="select-btn">Chatear con Arthur</button>
+                </div>
+            </div>
+            </div>
         </section>
     `,
     '/chat': () => `
