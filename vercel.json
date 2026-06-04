@@ -1,6 +1,5 @@
 {
-    "public": true,
     "rewrites": [
-        { "source": "/(.*)", "destination": "/$1" }
+        { "source": "/api/(.*)", "destination": "/api/$1" }
     ]
 }

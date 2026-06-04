@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 // Inicializamos el cliente usando la variable de entorno segura (NUNCA expuesta al frontend)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
     // 1. Validación de Método: Solo permitimos POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido. Utilice POST.' });
