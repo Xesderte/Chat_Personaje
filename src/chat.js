@@ -2,7 +2,7 @@
 import { SYSTEM_PROMPT, sanitizeInput, limitChatHistory, formatErrorMessage } from './utils.js';
 
 // El historial ahora arranca con la personalidad de Arthur pre-cargada de forma silenciosa
-let chatHistory = [SYSTEM_PROMPT];
+let chatHistory = JSON.parse(sessionStorage.getItem('chatHistory')) || [SYSTEM_PROMPT];
 
 // --- UTILIDADES COMPARTIDAS (Manipulan el DOM dinámicamente) ---
 
@@ -76,23 +76,23 @@ document.body.addEventListener('submit', async (e) => {
         const input = document.getElementById('chat-input');
         if (!input) return;
 
-        // 1. APLICAMOS LA FUNCIÓN DE LIMPIEZA (Evita procesar espacios en blanco y ahorra tokens)
         const text = sanitizeInput(input.value); 
         if (!text) return; 
 
         appendMessageToUI('user', text);
         input.value = '';
 
-        // 2. Guardamos en el historial en memoria
+        // Guardamos en el historial en memoria
         chatHistory.push({ role: 'user', content: text });
 
-        // 3. Mostramos estado de carga
         showTypingIndicator();
 
-        // 4. APLICAMOS EL LÍMITE DE HISTORIAL (Protegemos la API de colapsar)
+        // Aplicamos el límite de historial
         chatHistory = limitChatHistory(chatHistory, 10);
 
-        // 5. Petición segura al Backend
+        // 💾 NUEVO: Guardamos el historial del usuario antes de llamar a la API
+        sessionStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
         try {
             const response = await fetch('/api/functions', {
                 method: 'POST',
@@ -110,10 +110,12 @@ document.body.addEventListener('submit', async (e) => {
             const botReply = data.reply;
             appendMessageToUI('assistant', botReply);
             chatHistory.push({ role: 'assistant', content: botReply });
+
+            // 💾 NUEVO: Guardamos el historial actualizado con la respuesta de Arthur
+            sessionStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
         } catch (error) {
             console.error('Error en el chat: ', error);
-            
-            // 6. APLICAMOS EL PARSEADOR DE ERRORES (Mantiene el tono inmersivo si falla la red)
             const errorMessage = formatErrorMessage(error);
             appendMessageToUI('error', errorMessage);    
         } finally {
