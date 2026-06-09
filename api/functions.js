@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
         // 6. Hacer la petición real a la IA enviando el historial mapeado
         const result = await model.generateContent({
-            contents: limitedHistory,
+            contents: history,
             generationConfig: {
                 maxOutputTokens: 150, // Corta la respuesta estrictamente si se pasa de largo
                 temperature: 0.7, // Un poco más bajo para que sea más predecible y menos "creativo/teatral"
