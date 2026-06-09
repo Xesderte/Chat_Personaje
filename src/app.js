@@ -23,13 +23,17 @@ const views = {
     `,
     '/chat': () => `
         <section class="view-section">
-        <h1>Interfaz de Chat</h1>
-        <div id="chat-window" class="chat-window">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>Interfaz de Chat</h1>
+                <button id="clear-history-btn" style="background-color: #d32f2f; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                    Borrar Historial
+                </button>
             </div>
-        <form id="chat-form" class="chat-form">
-            <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" required />
-            <button type="submit" id="send-btn">Enviar</button>
-        </form>
+            <div id="chat-window" class="chat-window"></div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" required />
+                <button type="submit" id="send-btn">Enviar</button>
+            </form>
         </section>
     `,
     '/about': () => `

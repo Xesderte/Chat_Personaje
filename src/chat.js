@@ -56,15 +56,35 @@ function removeTypingIndicator() {
 
 // --- FUNCIÓN DE INICIALIZACIÓN (Solo monta la vista) ---
 export function initChat() {
+    
     const chatWindow = document.getElementById('chat-window');
-    if(chatWindow) chatWindow.innerHTML = ''; // Limpiamos la vista si el usuario sale y vuelve a entrar
-
-    // Si el historial solo tiene el System Prompt (longitud 1), agregamos la bienvenida estática visual
-    if (chatHistory.length === 1) {
-        appendMessageToUI('assistant', 'Howdy, partner. ¿De qué querés hablar?');
-    } else {
-        // Redibujamos el historial completo (omitiendo el System Prompt gracias a nuestra validación en appendMessageToUI)
-        chatHistory.forEach(msg => appendMessageToUI(msg.role, msg.content));
+    
+    // Limpiamos la ventana por seguridad y recorremos la variable chatHistory
+    chatWindow.innerHTML = ''; 
+    chatHistory.forEach(msg => {
+        // Nos aseguramos de no pintar nunca el System Prompt en pantalla
+        if (msg.role !== 'system') {
+            appendMessageToUI(msg.role, msg.content);
+        }
+    });
+    
+    const clearBtn = document.getElementById('clear-history-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            // 1. Limpiamos el almacenamiento del navegador
+            localStorage.removeItem('chatHistory');
+            
+            // 2. Reiniciamos la variable de memoria dejándola solo con las reglas de Arthur
+            chatHistory = [SYSTEM_PROMPT];
+            
+            // 3. Vaciamos la pantalla visualmente
+            chatWindow.innerHTML = '';
+            
+            // Opcional: Mostrar un mensaje temporal de que se borró
+            appendMessageToUI('system', 'Historial borrado. Arthur ya no recuerda nada.');
+            // (Nota: como nuestra función appendMessageToUI ignora el rol 'system', 
+            // esto no se pintará a menos que cambies tu función, pero sirve de limpieza).
+        });
     }
 }
 
