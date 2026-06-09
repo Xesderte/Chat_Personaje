@@ -24,28 +24,30 @@ const container = document.getElementById('app-container');
 
 // 1. Organizado por vistas mediante funciones
 const views = {
-    '/home': () => `
-        <section class="view-section">
-        <h1>Bienvenido a ComicSansCon AI</h1>
-        <p>Selecciona tu personaje para comenzar la experiencia.</p>
-        
-        <div class="character-grid">
-            <div class="character-card">
-                <div class="character-avatar">🤠</div>
-                <div class="character-info">
-                    <h3>Arthur, el Forajido</h3>
-                    <p>Un vaquero rudo pero leal. Experto en supervivencia, asaltos a diligencias y contar historias junto a la fogata del campamento.</p>
-                    <button data-route="/chat" class="select-btn">Chatear con Arthur</button>
+'/home': () => `
+            <section class="view-section">
+                <h1>ComicSansCon AI</h1>
+                <p>Selecciona tu personaje para chatear:</p>
+                <div class="character-grid">
+                    <div class="character-card">
+                        <img src="../ArthurMorgan.PNG" alt="Arthur Morgan" class="character-img" />
+                        <div class="character-info">
+                            <h2>Arthur Morgan</h2>
+                            <button data-route="/chat" class="select-btn">Chatear con Arthur</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        </section>
-    `,
+            </section>
+        `,
     '/chat': () => `
         <section class="view-section">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h1>Interfaz de Chat</h1>
-                <button id="clear-history-btn" aria-label="Borrar chat" style="background: none; border: none; color: #ff8a80; cursor: pointer; padding: 0; display: flex;">
+            <div class="chat-header">
+                <div class="chat-header-user">
+                    <img src="../ArthurMorgan.PNG" alt="Arthur" class="chat-header-avatar">
+                    <span class="chat-header-name">Arthur Morgan</span>
+                </div>
+                
+                <button id="clear-history-btn" aria-label="Borrar chat" style="background: none; border: none; color: #ff8a80; cursor: pointer; padding: 0; display: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -54,6 +56,7 @@ const views = {
                     </svg>
                 </button>
             </div>
+            
             <div id="chat-window" class="chat-window"></div>
             <form id="chat-form" class="chat-form">
                 <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" required />
