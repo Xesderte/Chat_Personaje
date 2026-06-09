@@ -7,11 +7,25 @@ let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [SYSTEM_PRO
 // --- UTILIDADES COMPARTIDAS (Manipulan el DOM dinámicamente) ---
 
 function appendMessageToUI(role, text) {
-    // ¡IMPORTANTE! Nunca dibujamos el System Prompt en la pantalla del usuario
     if (role === 'system') return;
 
     const chatWindow = document.getElementById('chat-window');
     if (!chatWindow) return;
+
+    // Obtener la hora actual (ej. 14:30)
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const msgContainer = document.createElement('div');
+    msgContainer.style.display = 'flex';
+    msgContainer.style.flexDirection = 'column';
+    msgContainer.style.gap = '5px';
+    
+    // Alinear el contenedor según quién habla
+    if (role === 'user') {
+        msgContainer.style.alignItems = 'flex-end';
+    } else {
+        msgContainer.style.alignItems = 'flex-start';
+    }
 
     const msgElement = document.createElement('div');
     msgElement.classList.add('message');
@@ -25,7 +39,45 @@ function appendMessageToUI(role, text) {
     }
     
     msgElement.textContent = text;
-    chatWindow.appendChild(msgElement);
+    
+    // Crear el timestamp
+    const timeElement = document.createElement('span');
+    timeElement.textContent = timeString;
+    timeElement.style.fontSize = '0.75rem';
+    timeElement.style.color = '#888';
+
+    // Si es Arthur, creamos el botón de copiar
+    if (role === 'assistant' || role === 'error') {
+        const copyBtn = document.createElement('button');
+        copyBtn.textContent = '📋 Copiar';
+        copyBtn.style.background = 'none';
+        copyBtn.style.border = 'none';
+        copyBtn.style.color = '#4CAF50';
+        copyBtn.style.cursor = 'pointer';
+        copyBtn.style.fontSize = '0.75rem';
+        copyBtn.style.padding = '0';
+        
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(text);
+            copyBtn.textContent = '✅ Copiado!';
+            setTimeout(() => { copyBtn.textContent = '📋 Copiar'; }, 2000);
+        });
+
+        // Agrupamos el tiempo y el botón
+        const footerDiv = document.createElement('div');
+        footerDiv.style.display = 'flex';
+        footerDiv.style.gap = '10px';
+        footerDiv.appendChild(timeElement);
+        footerDiv.appendChild(copyBtn);
+        
+        msgContainer.appendChild(msgElement);
+        msgContainer.appendChild(footerDiv);
+    } else {
+        msgContainer.appendChild(msgElement);
+        msgContainer.appendChild(timeElement);
+    }
+
+    chatWindow.appendChild(msgContainer);
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
@@ -67,7 +119,7 @@ export function initChat() {
             appendMessageToUI(msg.role, msg.content);
         }
     });
-    
+
     const clearBtn = document.getElementById('clear-history-btn');
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {

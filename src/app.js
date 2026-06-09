@@ -1,5 +1,25 @@
 import { initChat } from './chat.js'; // Importamos la lógica del chat
 
+// Lógica para el Modo Claro/Oscuro
+const themeToggleBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme');
+
+// Aplicar tema guardado al cargar
+if (currentTheme === 'light') {
+    document.body.classList.add('light-mode');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    
+    // Guardar preferencia en localStorage
+    if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+    } else {
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
 const container = document.getElementById('app-container');
 
 // 1. Organizado por vistas mediante funciones
