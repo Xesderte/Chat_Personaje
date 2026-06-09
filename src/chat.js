@@ -2,7 +2,7 @@
 import { SYSTEM_PROMPT, sanitizeInput, limitChatHistory, formatErrorMessage } from './utils.js';
 
 // El historial ahora arranca con la personalidad de Arthur pre-cargada de forma silenciosa
-let chatHistory = JSON.parse(sessionStorage.getItem('chatHistory')) || [SYSTEM_PROMPT];
+let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [SYSTEM_PROMPT];
 
 // --- UTILIDADES COMPARTIDAS (Manipulan el DOM dinámicamente) ---
 
@@ -91,7 +91,7 @@ document.body.addEventListener('submit', async (e) => {
         chatHistory = limitChatHistory(chatHistory, 10);
 
         // 💾 NUEVO: Guardamos el historial del usuario antes de llamar a la API
-        sessionStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
 
         try {
             const response = await fetch('/api/functions', {
@@ -112,7 +112,7 @@ document.body.addEventListener('submit', async (e) => {
             chatHistory.push({ role: 'assistant', content: botReply });
 
             // 💾 NUEVO: Guardamos el historial actualizado con la respuesta de Arthur
-            sessionStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
 
         } catch (error) {
             console.error('Error en el chat: ', error);

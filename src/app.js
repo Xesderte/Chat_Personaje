@@ -3,7 +3,6 @@ import { initChat } from './chat.js'; // Importamos la lógica del chat
 const container = document.getElementById('app-container');
 
 // 1. Organizado por vistas mediante funciones
-// 1. Organizado por vistas mediante funciones
 const views = {
     '/home': () => `
         <section class="view-section">

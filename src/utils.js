@@ -13,7 +13,6 @@ REGLAS ESTRICTAS DE COMPORTAMIENTO:
 5. LONGITUD: Sé conciso. Eres un hombre de acción y de pocas palabras, a menos que te pidan contar una historia junto a la fogata del campamento.`
 };
 
-// === SUBPASO 3.2: CAPA DE TRANSFORMACIÓN (Funciones Puras) ===
 
 /**
  * 1. Limpiador de Input (sanitizeInput)
