@@ -25,11 +25,15 @@ export default async function handler(req, res) {
         const chatHistory = messages.filter(msg => msg.role !== 'system');
 
         // 4. Mapear el historial al formato estricto que exige Gemini
-        const geminiFormatContents = chatHistory.map(msg => ({
-            // Gemini solo entiende 'user' o 'model'. Si nuestro frontend dice 'assistant', lo pasamos a 'model'
-            role: msg.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: msg.content }]
-        }));
+        const geminiFormatContents = chatHistory.map(msg => {
+            // Atrapamos el texto ya sea que venga en 'content', en 'text', o le ponemos un espacio por seguridad
+            const textoSeguro = msg.content || msg.text || " ";
+            
+            return {
+                role: msg.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: String(textoSeguro) }]
+            };
+        });
 
         // 5. Instanciar el modelo Gemini 1.5 Flash con el System Prompt
         const model = genAI.getGenerativeModel({
