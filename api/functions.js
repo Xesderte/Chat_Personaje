@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
         // 5. Instanciar el modelo Gemini 1.5 Flash con el System Prompt
         const model = genAI.getGenerativeModel({
-            model: "gemini-3.1-pro-preview",
+            model: "gemini-1.5-flash",
             // Aquí inyectamos la personalidad de Arthur para que gobierne toda la respuesta
             systemInstruction: systemMessage ? systemMessage.content : "",
         });
