@@ -45,10 +45,6 @@ export default async function handler(req, res) {
         // 6. Hacer la petición real a la IA enviando el historial mapeado
         const result = await model.generateContent({
             contents: geminiFormatContents, 
-            generationConfig: {
-                maxOutputTokens: 150, 
-                temperature: 0.7, 
-            }
         });
         // Extraemos el texto puro de la respuesta
         const botReply = result.response.text();
