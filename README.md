@@ -71,7 +71,7 @@ npm run test
 ## 📸 Capturas de Pantalla
 
 *(Reemplaza estos textos con tus imágenes)*
-* `![Vista Home Mobile](https://github.com/Xesderte/Chat_Personaje/issues/1#issue-4633352627)`
+* `![Vista Home Mobile](<img width="394" height="647" alt="Image" src="https://github.com/user-attachments/assets/24ade9d9-ce22-463c-9ab3-c1cd1b113a3a" />)`
 * `![Vista Chat Desktop](./ruta-a-tu-imagen/chat-desktop.png)`
 * `![Estado de Error/Carga](./ruta-a-tu-imagen/error-state.png)`
 
