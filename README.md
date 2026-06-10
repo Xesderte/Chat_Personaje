@@ -50,11 +50,11 @@ El proyecto cuenta con pruebas unitarias para asegurar la integridad de la capa 
 
 \`\`\`bash
 npm run test
-# o alternativamente: npx vitest
+ o alternativamente: npx vitest
 \`\`\`
 
 ## 📁 Estructura de las Carpetas
-
+```text
 📁 CHAT_PERSONAJE/
 ├── 📁 api/
 │   └── 📄 functions.js
@@ -76,10 +76,11 @@ npm run test
 ├── ⚙️ package.json
 ├── 📄 README.md
 └── ⚙️ vercel.json
+```
 
 ## 🔗 Enlaces del Proyecto
 
-* **Aplicación Desplegada:** [[Link_Vercel](https://chat-personaje.vercel.app/chat)]
+* **Aplicación Desplegada:** [[Link_Vercel](https://chat-personaje.vercel.app)]
 * **Repositorio de GitHub:** [[Link_RepositorioGutHub](https://github.com/Xesderte/Chat_Personaje.git)]
 
 ## 📸 Capturas de Pantalla
