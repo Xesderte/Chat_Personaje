@@ -65,13 +65,13 @@ npm run test
 
 ## 🔗 Enlaces del Proyecto
 
-* **Aplicación Desplegada:** [PEGA_AQUI_TU_LINK_DE_VERCEL_EJEMPLO.vercel.app]
-* **Repositorio de GitHub:** [PEGA_AQUI_TU_LINK_DE_GITHUB]
+* **Aplicación Desplegada:** [[PEGA_AQUI_TU_LINK_DE_VERCEL_EJEMPLO.vercel.app](https://chat-personaje.vercel.app/chat)]
+* **Repositorio de GitHub:** [[PEGA_AQUI_TU_LINK_DE_GITHUB](https://github.com/Xesderte/Chat_Personaje.git)]
 
 ## 📸 Capturas de Pantalla
 
 *(Reemplaza estos textos con tus imágenes)*
-* `![Vista Home Mobile](./ruta-a-tu-imagen/home-mobile.png)`
+* `![Vista Home Mobile](https://github.com/Xesderte/Chat_Personaje/issues/1#issue-4633352627)`
 * `![Vista Chat Desktop](./ruta-a-tu-imagen/chat-desktop.png)`
 * `![Estado de Error/Carga](./ruta-a-tu-imagen/error-state.png)`
 
