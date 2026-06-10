@@ -71,7 +71,7 @@ npm run test
 ## 📸 Capturas de Pantalla
 
 *(Reemplaza estos textos con tus imágenes)*
-* `![Vista Home Mobile](<img width="394" height="647" alt="Image" src="https://github.com/user-attachments/assets/24ade9d9-ce22-463c-9ab3-c1cd1b113a3a" />)`
+* `!<img width="895" height="561" alt="Image" src="https://github.com/user-attachments/assets/341b414c-f114-4766-8f07-22f853ddc5b6" />`
 * `![Vista Chat Desktop](./ruta-a-tu-imagen/chat-desktop.png)`
 * `![Estado de Error/Carga](./ruta-a-tu-imagen/error-state.png)`
 
